@@ -1,8 +1,8 @@
-export default function Button({className:style ,children : contenido,onClick : funcion}) {
+export default function Button({className:style ,children : contenido,onClick : funcion, disabled = false}) {
 
     return(
 
-        <button onClick={funcion} className={style}>
+        <button disabled={disabled} onClick={funcion} className={style}>
             {contenido}
         </button>
     )
