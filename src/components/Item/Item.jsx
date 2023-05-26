@@ -1,19 +1,21 @@
 import Button from "../Button/Button";
 
-export default function Item({nombre,descripcion,precio,imagen}) {
+import { Link } from "react-router-dom";
+
+export default function Item({id,nombre,descripcion,precio,imagen}) {
 
     return(
 
         <div className="col">
             <div className="card text-center h-100">
                 <img src ={imagen} className="card-img-top" alt={descripcion} />
-                <div className="card-body">
+                <div className="card-body d-flex flex-column justify-content-between">
                     <h5 className="card-title">{nombre}</h5>
                     <p className="card-text fw-bold">${precio}</p>
                 </div>
-                <div className="card-footer">
+                <Link className="card-footer" to={`/product/${id}`}>
                     <Button className={"btn btn-primary"}>Ver Detalles</Button>
-                </div>
+                </Link>
             </div>
         </div>
     )
