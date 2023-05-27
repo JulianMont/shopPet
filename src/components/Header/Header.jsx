@@ -1,10 +1,8 @@
-import { Link } from 'react-router-dom'
 import Button from '../Button/Button'
 import CarritoIcon from '../CarritoIcon/CarritoIcon'
+import { Link } from 'react-router-dom'
 
 export default function Header() {
-
-
 
 
     return(
@@ -22,21 +20,19 @@ export default function Header() {
                                 <Link className="nav-link" aria-current="page" to="/">Inicio</Link>
                             </li>
                             <li className="nav-item d-flex mx-2">
-                                <Link className="nav-link" aria-current="page" to="/product">Productos</Link>
                                 <div className="dropdown">
-                                    <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></Link>
+                                    <Link className="nav-link dropdown-toggle" to="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categoria</Link>
                                     <ul className="dropdown-menu" data-bs-theme="dark">
-                                        <li><Link className="dropdown-item" to="#">Alimentos</Link></li>
-                                        <li><Link className="dropdown-item" to="#">Juguetes</Link></li>
-                                        <li><Link className="dropdown-item" to="#">Higiene</Link></li>
-                                        <li><Link className="dropdown-item" to="#">Higiene</Link></li>
-                                        <li><Link className="dropdown-item" to="#">Accesorios</Link></li>
-                                        <li><Link className="dropdown-item" to="#">Habitats</Link></li>
+                                        <li><Link className="dropdown-item" to="/Alimentos">Alimentos</Link></li>
+                                        <li><Link className="dropdown-item" to="/Juguetes">Juguetes</Link></li>
+                                        <li><Link className="dropdown-item" to="/Higiene">Higiene</Link></li>
+                                        <li><Link className="dropdown-item" to="/Accesorios">Accesorios</Link></li>
+                                        <li><Link className="dropdown-item" to="/Hábitats">Hábitats</Link></li>
                                     </ul>
                                 </div>
                             </li>
                             <li className="nav-item mx-2">
-                                <Link className="nav-link" to="#">Contactanos</Link>
+                                <Link className="nav-link" to="/">Contactanos</Link>
                             </li>
                         </ul>
                         <ul className="navbar-nav mb-2 mb-lg-0">

@@ -1,13 +1,12 @@
 
 import { useEffect, useState } from "react"
 import ItemCount from "../ItemCount/ItemCount"
+import { useParams } from "react-router-dom"
 
 import productos from "../../data/productos"
-import { useParams } from "react-router-dom"
 function getItemData(id){
     return new Promise( resolve =>{
         setTimeout(() => { 
-
             const itemABuscar = productos.find(item => item.id === parseInt(id))
             resolve(itemABuscar)
         },500)
@@ -21,7 +20,7 @@ export default function ItemDetailContainer() {
 
     useEffect(()=>{
         getItemData(id).then( resProducto => setProducto(resProducto))
-    },[])
+    },[id])
 
     const {nombre,descripcion,precio,imagen,stock} = producto
 

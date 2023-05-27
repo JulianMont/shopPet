@@ -13,7 +13,7 @@ export default function Item({id,nombre,descripcion,precio,imagen}) {
                     <h5 className="card-title">{nombre}</h5>
                     <p className="card-text fw-bold">${precio}</p>
                 </div>
-                <Link className="card-footer" to={`/product/${id}`}>
+                <Link className="card-footer" to={`/producto/${id}`}>
                     <Button className={"btn btn-primary"}>Ver Detalles</Button>
                 </Link>
             </div>
