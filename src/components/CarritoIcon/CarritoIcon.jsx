@@ -7,9 +7,11 @@ export default function CarritoIcon({className : style}) {
 
     return(
 
-        <Button className={style}>
+        <Button className={`${style} position-relative`}>
             <FontAwesomeIcon icon={faCartShopping}/>
-            <span>2</span>
+            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                2
+            </span>
         </Button>
 
     )

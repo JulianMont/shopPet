@@ -17,21 +17,11 @@ export default function ItemListContainer() {
 
     const {categoria} = useParams()
 
-    console.log(categoria)
-
-    
-
-
-
     useEffect(()=>{   
         getProductos().then( resProductos => {
 
-            if(categoria){
-                const filterProducts = resProductos.filter( item => item.categoria === categoria)
-                setProductos(filterProducts)
-            }else{
-                setProductos(resProductos)
-            }
+            const filterProducts = categoria ? resProductos.filter(item => item.categoria === categoria) : resProductos
+            setProductos(filterProducts)
 
         })
     },[categoria])

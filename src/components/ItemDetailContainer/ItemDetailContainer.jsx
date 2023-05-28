@@ -36,8 +36,7 @@ export default function ItemDetailContainer() {
                         <div className="card-body">
                             <h1 className="card-title">{nombre}</h1>
                             <p className="card-text">{descripcion}</p>
-                            <p className="card-text fw-bold">${precio}</p>
-                            <ItemCount stock = {stock}/>
+                            <ItemCount stock = {stock} precio = {precio}/>
                         </div>
                     </div>
                 </div>
