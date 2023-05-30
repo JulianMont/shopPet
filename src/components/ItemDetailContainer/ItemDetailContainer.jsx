@@ -13,35 +13,46 @@ function getItemData(id){
     })
 }
 
+
 export default function ItemDetailContainer() {
+
 
     const [producto,setProducto] = useState({})
     const {id} = useParams()
+    const [cargando,setCargando] = useState(true)
 
     useEffect(()=>{
-        getItemData(id).then( resProducto => setProducto(resProducto))
+        getItemData(id).then( resProducto => {
+            setProducto(resProducto)
+            setCargando(false)
+        })
     },[id])
+
 
     const {nombre,descripcion,precio,imagen,stock} = producto
 
     return (
 
-        <div className="container mt-5">
-            <div className="card text-center">
-                <div className="row g-0 align-items-center">
-                    <div className="col-md-4">
-                        <img src={imagen} className="img-fluid rounded-start" alt={nombre}/>
-                    </div>
-                    <div className="col-md-8">
-                        <div className="card-body">
-                            <h1 className="card-title">{nombre}</h1>
-                            <p className="card-text">{descripcion}</p>
-                            <ItemCount stock = {stock} precio = {precio}/>
+
+        <div className={`container mt-5 ${cargando ? "d-flex justify-content-center" : ""}`}>
+            {cargando
+                ?(<div className="spinner-border mt-5" role="status"></div>)
+                :(
+                <div className="card text-center">
+                    <div className="row g-0 align-items-center">
+                        <div className="col-md-4">
+                            <img src={imagen} className="img-fluid rounded-start" alt={nombre}/>
+                        </div>
+                        <div className="col-md-8">
+                            <div className="card-body">
+                                <h1 className="card-title">{nombre}</h1>
+                                <p className="card-text">{descripcion}</p>
+                                <ItemCount stock = {stock} precio = {precio}/>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </div>)
+            }
         </div>
-
     )
 }
