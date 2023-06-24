@@ -45,10 +45,12 @@ export async function getItemData(idUrl) {
   const docRef = doc(db, "productos", idUrl)
   const docSnapshot = await getDoc(docRef)
 
-  return { id: docSnapshot.id ,...docSnapshot.data()}
-  
+  if (docSnapshot.data()) {
+    return { id: docSnapshot.id ,...docSnapshot.data()}
+  } else {
+    throw new Error(`No existe el producto ${idUrl}`)
+  }
 
-  // tirar error aca
 }
 
 // ------------

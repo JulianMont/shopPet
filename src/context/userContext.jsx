@@ -34,10 +34,12 @@ export function UserContextProvider({ children }) {
     }
   }
   
-
+  async function logOut() {
+    setUser({})
+  }
 
   return (
-    <userContext.Provider value={{user,setUser,createUser,logInUser}}>
+    <userContext.Provider value={{user,setUser,createUser,logInUser,logOut}}>
       {children}
     </userContext.Provider>
   )

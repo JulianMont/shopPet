@@ -8,19 +8,6 @@ import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 
-// function getItemData(id) {
-// 	return new Promise((resolve,reject) => {
-// 		setTimeout(() => {
-// 			const itemABuscar = productos.find(item => item.id === parseInt(id))
-
-// 			itemABuscar
-// 				? resolve(itemABuscar)
-// 				: reject(new Error("Error: El producto no existe"))
-									
-// 		}, 500)
-// 	})
-// }
-
 export default function ItemDetailContainer() {
 	
 	const [producto, setProducto] = useState({})
@@ -33,6 +20,7 @@ export default function ItemDetailContainer() {
 	
 
 	useEffect(() => {
+		setError(null)
 		getItemData(id)
 			.then(resProducto => {
 				setProducto(resProducto)
@@ -57,11 +45,6 @@ export default function ItemDetailContainer() {
 		})
 	}
 
-
-	if (Object.keys(producto).length === 0) {
-		return <Loading />
-	}
-
 	if (error) {
 		return (
 			<div className="container">
@@ -71,6 +54,10 @@ export default function ItemDetailContainer() {
 				</div>
 			</div>
 		)
+	}
+	
+	if (Object.keys(producto).length === 0) {
+		return <Loading />
 	}
 
 	return (

@@ -13,7 +13,7 @@ export default function Header() {
 		window.scroll(0,0)
 	}, [location])
 	
-	const { user } = useContext(userContext)
+	const { user ,logOut} = useContext(userContext)
 
 
 	return (
@@ -97,7 +97,7 @@ export default function Header() {
 											</a>
 											<ul className='dropdown-menu ' data-bs-theme='dark'>
 												<li className='text-center'>
-													<Button className='btn btn-danger'>
+													<Button onClick={logOut} className='btn btn-danger'>
 														Desconectarse
 													</Button>
 												</li>
