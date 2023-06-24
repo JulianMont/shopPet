@@ -1,4 +1,4 @@
-# Proyecto-CoderHouse
+# Pet Shop React Project
 
 ## Introduccion
 
