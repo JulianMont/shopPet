@@ -1,39 +1,53 @@
-import { useEffect, useState } from "react";
-import ItemList from "../ItemList/ItemList";
-import { useParams } from "react-router-dom";
-
-import productos from "../../data/productos"
-function getProductos(){
-    return new Promise( resolve =>{
-        setTimeout(() => { 
-            resolve(productos)
-        },500)
-    })
-}
+import { useEffect, useState } from 'react'
+import ItemList from '../ItemList/ItemList'
+import { useParams } from 'react-router-dom'
+import { getCategoryData, getData} from '../../services/firebase'
 
 export default function ItemListContainer() {
 
-    let [productos,setProductos] = useState([])
+	
+	const [productos, setProductos] = useState([])
+	const [error,setError] = useState(null)
+	const { categoryid } = useParams()
+	let [cargando, setCargando] = useState(true)
 
-    const {categoria} = useParams()
 
-    useEffect(()=>{   
-        getProductos().then( resProductos => {
+	const filterData = categoryid === undefined ? getData : getCategoryData
 
-            const filterProducts = categoria ? resProductos.filter(item => item.categoria === categoria) : resProductos
-            setProductos(filterProducts)
+	useEffect(() => {
+		setError(null)
+		filterData(categoryid)
+			.then(resProductos => setProductos(resProductos))
+			.catch((error) => {
+				setError(error.message)
+			})
+			.finally(() => {
+			setCargando(false)
+		})
+	}, [categoryid])
 
-        })
-    },[categoria])
+	
 
-    return(
+	if (error) {
 
-        <>
-            <h2 className="mb-4">Productos</h2>
+		
+		return (
+			<div className="container">
+				<div className="row">
+					<h2>Error</h2>
+					<p>{error}</p>
+				</div>
+			</div>
+		)
+	}
 
-            <ItemList productos = {productos}/>
+	return (
+		<div className="container">
+			<div className="row">
+				<h2 className='mb-4'>Productos</h2>
+				<ItemList cargando={cargando} productos={productos} />
+			</div>
+		</div>
 
-        </>
-
-    )
+	)
 }

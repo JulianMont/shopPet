@@ -1,58 +1,108 @@
+import { useContext, useEffect, useState } from 'react'
+import ItemCount from '../ItemCount/ItemCount'
+import { Link, useParams } from 'react-router-dom'
+import { cartContext } from '../../context/cartContext'
+import Loading from '../Loading/Loading'
+import { getItemData } from '../../services/firebase'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-import { useEffect, useState } from "react"
-import ItemCount from "../ItemCount/ItemCount"
-import { useParams } from "react-router-dom"
 
-import productos from "../../data/productos"
-function getItemData(id){
-    return new Promise( resolve =>{
-        setTimeout(() => { 
-            const itemABuscar = productos.find(item => item.id === parseInt(id))
-            resolve(itemABuscar)
-        },500)
-    })
-}
+// function getItemData(id) {
+// 	return new Promise((resolve,reject) => {
+// 		setTimeout(() => {
+// 			const itemABuscar = productos.find(item => item.id === parseInt(id))
 
+// 			itemABuscar
+// 				? resolve(itemABuscar)
+// 				: reject(new Error("Error: El producto no existe"))
+									
+// 		}, 500)
+// 	})
+// }
 
 export default function ItemDetailContainer() {
+	
+	const [producto, setProducto] = useState({})
+	const { id } = useParams()
+	const {addItem} = useContext(cartContext)
+	const { nombre, descripcion, precio, imagen, stock } = producto
+	const [error, setError] = useState(null)
+	const [sendToCart,setSendToCart] = useState(false)
+	
+	
+
+	useEffect(() => {
+		getItemData(id)
+			.then(resProducto => {
+				setProducto(resProducto)
+			})
+			.catch((error) => {
+				setError(error.message)
+			})
+	}, [id])
+
+	function onAddToCart(cantidad) {
+		addItem(producto, cantidad)
+		setSendToCart(true)
+		toast.success('Producto agregado al carrito', {
+			position: "bottom-right",
+			autoClose: 5000,
+			hideProgressBar: false,
+			closeOnClick: true,
+			pauseOnHover: false,
+			draggable: true,
+			progress: undefined,
+			theme: "light",
+		})
+	}
 
 
-    const [producto,setProducto] = useState({})
-    const {id} = useParams()
-    const [cargando,setCargando] = useState(true)
+	if (Object.keys(producto).length === 0) {
+		return <Loading />
+	}
 
-    useEffect(()=>{
-        getItemData(id).then( resProducto => {
-            setProducto(resProducto)
-            setCargando(false)
-        })
-    },[id])
+	if (error) {
+		return (
+			<div className="container">
+				<div className="row">
+					<h2>Error</h2>
+					<p>{error}</p>
+				</div>
+			</div>
+		)
+	}
 
+	return (
+		<div className={`container d-flex justify-content-center align-items-center vh-100`}>
+			<ToastContainer />
+			<div className='card text-center w-100'>
+				<div className='row g-0 align-items-center'>
+					<div className='col-md-4'>
+						<img
+							src={imagen}
+							className='img-fluid rounded-start w-75'
+							alt={nombre}
+						/>
+					</div>
+					<div className='col-md-8'>
+						<div className='card-body'>
+							<h1 className='card-title'>{nombre}</h1>
+							<p className='card-text'>{descripcion}</p>
 
-    const {nombre,descripcion,precio,imagen,stock} = producto
-
-    return (
-
-
-        <div className={`container mt-5 ${cargando ? "d-flex justify-content-center" : ""}`}>
-            {cargando
-                ?(<div className="spinner-border mt-5" role="status"></div>)
-                :(
-                <div className="card text-center">
-                    <div className="row g-0 align-items-center">
-                        <div className="col-md-4">
-                            <img src={imagen} className="img-fluid rounded-start" alt={nombre}/>
-                        </div>
-                        <div className="col-md-8">
-                            <div className="card-body">
-                                <h1 className="card-title">{nombre}</h1>
-                                <p className="card-text">{descripcion}</p>
-                                <ItemCount stock = {stock} precio = {precio}/>
-                            </div>
-                        </div>
-                    </div>
-                </div>)
-            }
-        </div>
-    )
+							{
+								sendToCart
+									? (
+										<Link to={"/cart"} className={'btn btn-info'}>Ir al carrito</Link>
+									)
+									: (
+											<ItemCount stock={stock} precio={precio} onAddToCart={onAddToCart} />
+									)
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	)
 }
